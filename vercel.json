@@ -1,3 +1,9 @@
 {
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://gerenciador-estoque-api-q7fs.onrender.com/api/$1"
+    }
+  ]
 }
