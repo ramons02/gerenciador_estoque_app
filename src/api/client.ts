@@ -1,3 +1,5 @@
+const BASE_URL = (import.meta.env.VITE_API_URL as string | undefined) ?? ''
+
 export class ApiError extends Error {
   readonly status: number
 
@@ -8,7 +10,7 @@ export class ApiError extends Error {
 }
 
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(path, {
+  const response = await fetch(`${BASE_URL}${path}`, {
     headers: { 'Content-Type': 'application/json' },
     ...init,
   })
