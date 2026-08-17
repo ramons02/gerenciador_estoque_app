@@ -143,3 +143,97 @@ body {
   border: 1px solid #fecaca;
   color: #b91c1c;
 }
+
+.alerta.sucesso {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+}
+
+.checkbox-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.total-venal {
+  font-size: 1rem;
+  color: #374151;
+}
+
+.total-venal strong {
+  color: #15803d;
+  font-size: 1.15rem;
+}
+
+.linha-cancelada td {
+  color: #9ca3af;
+  text-decoration: line-through;
+}
+
+.linha-alerta td {
+  background: #fffbeb;
+}
+
+.linha-alerta td:first-child {
+  border-left: 4px solid #f59e0b;
+}
+
+.badge-alerta {
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-ok {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #166534;
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.cartoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.cartao,
+.cartao-destaque {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cartao-destaque {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.cartao-rotulo {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.cartao-valor {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}

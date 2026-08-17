@@ -9,6 +9,13 @@ export function listarVasilhames(): Promise<Vasilhame[]> {
   return api<Vasilhame[]>('/api/vasilhames')
 }
 
+export function atualizarVasilhame(id: number, input: { nome: string; precoCasco: string }): Promise<Vasilhame> {
+  return api<Vasilhame>(`/api/vasilhames/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(input),
+  })
+}
+
 export function listarProdutos(): Promise<Produto[]> {
   return api<Produto[]>('/api/produtos')
 }
