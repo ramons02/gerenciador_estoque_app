@@ -29,6 +29,28 @@ body {
   color: #111827;
 }
 
+.navegacao {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.link-nav {
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #4b5563;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.link-nav.ativo {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
 .pagina h1 {
   font-size: 1.25rem;
 }

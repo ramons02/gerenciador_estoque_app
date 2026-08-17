@@ -25,3 +25,15 @@ export interface ProdutoInput {
   precoVenda: string
   limiteMinimo: number
 }
+
+export interface Fornecedor {
+  id: number
+  nome: string
+  contato?: string
+  ativo: boolean
+}
+
+export interface FornecedorInput {
+  nome: string
+  contato?: string
+}
