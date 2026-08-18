@@ -184,6 +184,24 @@ body {
   box-shadow: 0 0 0 3px rgba(91, 93, 244, 0.15);
 }
 
+.input-limite {
+  width: 70px;
+  padding: 5px 8px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-controle);
+  font-size: 0.9rem;
+  font-family: var(--fonte-corpo);
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  text-align: center;
+}
+
+.input-limite:focus {
+  outline: none;
+  border-color: var(--cor-primaria);
+  box-shadow: 0 0 0 3px rgba(91, 93, 244, 0.15);
+}
+
 .acoes-form {
   margin-top: 16px;
   display: flex;

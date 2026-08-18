@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { atualizarLimiteMinimo } from '../../api/produtos'
 import { painelEstoque } from '../../api/relatorios'
 import type { EstoqueProduto } from '../../api/types'
 
@@ -6,6 +7,7 @@ export function EstoquePage() {
   const [estoque, setEstoque] = useState<EstoqueProduto[]>([])
   const [erro, setErro] = useState<string | null>(null)
   const [carregando, setCarregando] = useState(true)
+  const [salvandoId, setSalvandoId] = useState<number | null>(null)
 
   function carregar() {
     painelEstoque()
@@ -17,6 +19,21 @@ export function EstoquePage() {
   useEffect(() => {
     carregar()
   }, [])
+
+  function salvarLimite(id: number, valor: string) {
+    const limite = Number(valor)
+    if (Number.isNaN(limite) || limite < 0) {
+      setErro('O limite minimo nao pode ser negativo.')
+      carregar()
+      return
+    }
+    setErro(null)
+    setSalvandoId(id)
+    atualizarLimiteMinimo(id, limite)
+      .then(carregar)
+      .catch((err: Error) => setErro(err.message))
+      .finally(() => setSalvandoId(null))
+  }
 
   return (
     <div className="pagina">
@@ -54,7 +71,22 @@ export function EstoquePage() {
                   <td>{produto.estoqueCheios}</td>
                   <td>{produto.estoqueVazios}</td>
                   <td>{produto.emRua}</td>
-                  <td>{produto.limiteMinimo}</td>
+                  <td>
+                    <input
+                      type="number"
+                      min="0"
+                      key={produto.id}
+                      defaultValue={produto.limiteMinimo}
+                      className="input-limite"
+                      disabled={salvandoId === produto.id}
+                      onBlur={(e) => salvarLimite(produto.id, e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.currentTarget.blur()
+                        }
+                      }}
+                    />
+                  </td>
                   <td>
                     {produto.estoqueBaixo ? (
                       <span className="badge-alerta">

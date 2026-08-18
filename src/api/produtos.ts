@@ -33,3 +33,10 @@ export function atualizarProduto(id: number, input: ProdutoInput): Promise<Produ
     body: JSON.stringify(input),
   })
 }
+
+export function atualizarLimiteMinimo(id: number, limiteMinimo: number): Promise<Produto> {
+  return api<Produto>(`/api/produtos/${id}/limite-minimo`, {
+    method: 'PUT',
+    body: JSON.stringify({ limiteMinimo }),
+  })
+}
