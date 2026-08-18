@@ -1,32 +1,43 @@
-# React + TypeScript + Vite
+# Premium Gás - App
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Frontend do sistema **Premium Gás** (revenda de Gás GLP e Água com vasilhame retornável).
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React + TypeScript
+- Vite (dev server na porta 5173, proxy `/api` → `localhost:8080`)
+- Oxlint + build otimizado
 
-## React Compiler
+## Como rodar localmente
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+npm install
+npm run dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Abra **http://localhost:5173**. Requer a API rodando (veja o README de
+`gerenciador_estoque_api` ou o JAR pronto no repo `gerenciador_estoque_jar`).
+
+## Telas
+
+- **Dashboard** - faturamento do dia, formas de pagamento e alertas de estoque baixo
+- **Vendas** - lançamento de venda (dinheiro, Pix, fiado), venda com vasilhame novo
+- **Estoque** - pátio em tempo real (cheios, vazios, em rua) com **limite mínimo editável**
+- **Clientes** - cadastro com telefone (máscara automática) e comodato de vasilhames
+- **Fornecedores** - cadastro de fornecedores
+- **Carregamento** - chegada de caminhão (entrada de cheios)
+- **Produtos** - cadastro de carga + vasilhame (ao selecionar **Gas** o vasilhame
+  **P13** é preenchido automaticamente; **Agua** → **Galão 20L**)
+- **Relatórios** - vendas em CSV e PDF
+
+## Comandos úteis
+
+```bash
+npm run lint   # oxlint
+npm run build  # gera dist/ (usado no deploy Vercel)
+```
+
+## Deploy
+
+- **Vercel** com `vercel.json`: build de `dist/` e rewrite de `/api/*` para a API no Render
+  (o deployment atual está **protegido** - exige login).
