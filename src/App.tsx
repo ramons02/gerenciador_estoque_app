@@ -42,7 +42,7 @@ function App() {
         <div className="cabecalho-inner">
           <div className="logo" onClick={() => setPagina('dashboard')}>
             <img className="logo-marca" src="/favicon.png" alt="GE" />
-            <span className="logo-titulo">Gerenciador de Estoque</span>
+            <span className="logo-titulo">Premium Gás</span>
           </div>
           <nav className="navegacao">
             {PAGINAS.map((item) => (
