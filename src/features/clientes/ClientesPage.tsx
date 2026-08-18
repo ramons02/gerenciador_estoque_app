@@ -5,6 +5,7 @@ import {
   listarClientes,
 } from '../../api/clientes'
 import type { Cliente, ClienteInput } from '../../api/types'
+import { mascararTelefone } from '../../utils/mascaras'
 
 const formVazio: ClienteInput = { nome: '', telefone: '', endereco: '', documento: '' }
 
@@ -94,7 +95,7 @@ export function ClientesPage() {
             Telefone
             <input
               value={form.telefone}
-              onChange={(e) => alterarForm('telefone', e.target.value)}
+              onChange={(e) => alterarForm('telefone', mascararTelefone(e.target.value))}
               placeholder="(11) 99999-0000"
             />
           </label>

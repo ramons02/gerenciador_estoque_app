@@ -5,6 +5,7 @@ import {
   listarFornecedores,
 } from '../../api/fornecedores'
 import type { Fornecedor, FornecedorInput } from '../../api/types'
+import { mascararTelefoneSeParecerNumero } from '../../utils/mascaras'
 
 const formVazio: FornecedorInput = { nome: '', contato: '' }
 
@@ -82,7 +83,7 @@ export function FornecedoresPage() {
             Contato
             <input
               value={form.contato}
-              onChange={(e) => alterarForm('contato', e.target.value)}
+              onChange={(e) => alterarForm('contato', mascararTelefoneSeParecerNumero(e.target.value))}
               placeholder="Telefone / pessoa de contato"
             />
           </label>
