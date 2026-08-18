@@ -31,6 +31,11 @@ function formatarPreco(valor: string): string {
   }).format(Number(valor))
 }
 
+const VASILHAME_POR_CARGA: Record<string, string> = {
+  Gas: 'P13',
+  Agua: 'Galão 20L',
+}
+
 export function ProdutosPage() {
   const [produtos, setProdutos] = useState<Produto[]>([])
   const [cargas, setCargas] = useState<Carga[]>([])
@@ -112,7 +117,17 @@ export function ProdutosPage() {
             Carga
             <select
               value={form.cargaId}
-              onChange={(e) => alterarForm('cargaId', e.target.value)}
+              onChange={(e) => {
+                alterarForm('cargaId', e.target.value)
+                const carga = cargas.find((c) => c.id === Number(e.target.value))
+                if (!carga) return
+                const nomeVasilhame = VASILHAME_POR_CARGA[carga.nome]
+                if (!nomeVasilhame) return
+                const vasilhame = vasilhames.find((v) => v.nome === nomeVasilhame)
+                if (vasilhame) {
+                  alterarForm('vasilhameId', String(vasilhame.id))
+                }
+              }}
               required
             >
               <option value="">Selecione</option>
