@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   relatorioBalanco,
   relatorioCarregamentos,
@@ -48,8 +48,7 @@ export function RelatoriosPage() {
     return selecionado
   }
 
-  useEffect(() => {
-    const { inicio: i, fim: f } = aplicarPeriodo()
+  const buscarRelatorios = useCallback((i: string, f: string) => {
     setCarregando(true)
     Promise.all([relatorioVendas(i, f), relatorioCarregamentos(i, f), relatorioBalanco(i, f)])
       .then(([v, c, b]) => {
@@ -61,17 +60,16 @@ export function RelatoriosPage() {
       .finally(() => setCarregando(false))
   }, [])
 
+  useEffect(() => {
+    const { inicio: i, fim: f } = calcularPeriodo('hoje')
+    setInicio(i)
+    setFim(f)
+    buscarRelatorios(i, f)
+  }, [buscarRelatorios])
+
   function atualizar() {
     const { inicio: i, fim: f } = aplicarPeriodo()
-    setCarregando(true)
-    Promise.all([relatorioVendas(i, f), relatorioCarregamentos(i, f), relatorioBalanco(i, f)])
-      .then(([v, c, b]) => {
-        setVendas(v)
-        setCarregamentos(c)
-        setBalanco(b)
-      })
-      .catch((err: Error) => setErro(err.message))
-      .finally(() => setCarregando(false))
+    buscarRelatorios(i, f)
   }
 
   return (
