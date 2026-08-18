@@ -37,32 +37,39 @@ function App() {
   const [pagina, setPagina] = useState<Pagina>('dashboard')
 
   return (
-    <main className="app">
+    <div className="app">
       <header className="cabecalho">
-        <h1>Gerenciador de Estoque</h1>
-        <nav className="navegacao">
-          {PAGINAS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={pagina === item.id ? 'link-nav ativo' : 'link-nav'}
-              onClick={() => setPagina(item.id)}
-            >
-              {item.rotulo}
-            </button>
-          ))}
-        </nav>
+        <div className="cabecalho-inner">
+          <div className="logo" onClick={() => setPagina('dashboard')}>
+            <span className="logo-marca">GE</span>
+            <span className="logo-titulo">Gerenciador de Estoque</span>
+          </div>
+          <nav className="navegacao">
+            {PAGINAS.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                className={pagina === item.id ? 'link-nav ativo' : 'link-nav'}
+                onClick={() => setPagina(item.id)}
+              >
+                {item.rotulo}
+              </button>
+            ))}
+          </nav>
+        </div>
       </header>
-      {pagina === 'dashboard' && <DashboardPage />}
-      {pagina === 'vendas' && <VendasPage />}
-      {pagina === 'carregamentos' && <CarregamentosPage />}
-      {pagina === 'produtos' && <ProdutosPage />}
-      {pagina === 'estoque' && <EstoquePage />}
-      {pagina === 'clientes' && <ClientesPage />}
-      {pagina === 'fornecedores' && <FornecedoresPage />}
-      {pagina === 'relatorios' && <RelatoriosPage />}
-      {pagina === 'configuracoes' && <ConfiguracoesPage />}
-    </main>
+      <main className="conteudo">
+        {pagina === 'dashboard' && <DashboardPage onNavegar={(p) => setPagina(p as Pagina)} />}
+        {pagina === 'vendas' && <VendasPage />}
+        {pagina === 'carregamentos' && <CarregamentosPage />}
+        {pagina === 'produtos' && <ProdutosPage />}
+        {pagina === 'estoque' && <EstoquePage />}
+        {pagina === 'clientes' && <ClientesPage />}
+        {pagina === 'fornecedores' && <FornecedoresPage />}
+        {pagina === 'relatorios' && <RelatoriosPage />}
+        {pagina === 'configuracoes' && <ConfiguracoesPage />}
+      </main>
+    </div>
   )
 }
 
