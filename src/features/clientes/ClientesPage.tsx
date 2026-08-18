@@ -7,7 +7,7 @@ import {
 import type { Cliente, ClienteInput } from '../../api/types'
 import { mascararTelefone } from '../../utils/mascaras'
 
-const formVazio: ClienteInput = { nome: '', telefone: '', endereco: '', documento: '' }
+const formVazio: ClienteInput = { nome: '', telefone: '', endereco: '' }
 
 export function ClientesPage() {
   const [clientes, setClientes] = useState<Cliente[]>([])
@@ -40,7 +40,6 @@ export function ClientesPage() {
       nome: cliente.nome,
       telefone: cliente.telefone ?? '',
       endereco: cliente.endereco ?? '',
-      documento: cliente.documento ?? '',
     })
   }
 
@@ -58,7 +57,6 @@ export function ClientesPage() {
       nome: form.nome.trim(),
       telefone: form.telefone?.trim() || undefined,
       endereco: form.endereco?.trim() || undefined,
-      documento: form.documento?.trim() || undefined,
     }
 
     try {
@@ -104,13 +102,6 @@ export function ClientesPage() {
             <input
               value={form.endereco}
               onChange={(e) => alterarForm('endereco', e.target.value)}
-            />
-          </label>
-          <label>
-            Documento (CPF/CNPJ)
-            <input
-              value={form.documento}
-              onChange={(e) => alterarForm('documento', e.target.value)}
             />
           </label>
         </div>
@@ -160,7 +151,6 @@ export function ClientesPage() {
                 <th>Nome</th>
                 <th>Telefone</th>
                 <th>Endereco</th>
-                <th>Documento</th>
                 <th></th>
               </tr>
             </thead>
@@ -170,7 +160,6 @@ export function ClientesPage() {
                   <td>{cliente.nome}</td>
                   <td>{cliente.telefone ?? '-'}</td>
                   <td>{cliente.endereco ?? '-'}</td>
-                  <td>{cliente.documento ?? '-'}</td>
                   <td>
                     <button type="button" className="botao" onClick={() => preencherEdicao(cliente)}>
                       Editar
