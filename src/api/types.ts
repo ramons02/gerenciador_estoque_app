@@ -46,7 +46,6 @@ export interface Cliente {
   nome: string
   telefone?: string
   endereco?: string
-  documento?: string
   ativo: boolean
 }
 
@@ -54,7 +53,6 @@ export interface ClienteInput {
   nome: string
   telefone?: string
   endereco?: string
-  documento?: string
 }
 
 export interface CarregamentoItemInput {
