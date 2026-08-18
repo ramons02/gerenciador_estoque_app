@@ -41,7 +41,7 @@ function App() {
       <header className="cabecalho">
         <div className="cabecalho-inner">
           <div className="logo" onClick={() => setPagina('dashboard')}>
-            <span className="logo-marca">GE</span>
+            <img className="logo-marca" src="/favicon.png" alt="GE" />
             <span className="logo-titulo">Gerenciador de Estoque</span>
           </div>
           <nav className="navegacao">
