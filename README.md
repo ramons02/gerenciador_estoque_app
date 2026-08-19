@@ -20,14 +20,15 @@ Abra **http://localhost:5173**. Requer a API rodando (veja o README de
 
 ## Telas
 
-- **Dashboard** - faturamento do dia, formas de pagamento e alertas de estoque baixo
-- **Vendas** - lançamento de venda (dinheiro, Pix, fiado), venda com vasilhame novo
+- **Dashboard** - faturamento do dia, formas de pagamento (Dinheiro, PIX e Cartão unificado) e alertas de estoque baixo
+- **Vendas** - lançamento de venda (Dinheiro, PIX ou Cartão), venda com vasilhame novo; Cartão soma acréscimo configurável
 - **Estoque** - pátio em tempo real (cheios, vazios, em rua) com **limite mínimo editável**
 - **Clientes** - cadastro com telefone (máscara automática) e comodato de vasilhames
 - **Fornecedores** - cadastro de fornecedores
 - **Carregamento** - chegada de caminhão (entrada de cheios)
 - **Produtos** - cadastro de carga + vasilhame (ao selecionar **Gas** o vasilhame
   **P13** é preenchido automaticamente; **Agua** → **Galão 20L**)
+- **Configurações** - formas de pagamento aceitas, acréscimo do cartão (R$ por unidade) e taxa de entrega
 - **Relatórios** - vendas em CSV e PDF
 
 ## Comandos úteis
