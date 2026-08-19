@@ -166,7 +166,7 @@ export function RelatoriosPage() {
               <table className="tabela">
                 <thead>
                   <tr>
-                    <th>Data</th>
+                    <th>Data/Hora</th>
                     <th>Fornecedor</th>
                     <th>Produto</th>
                     <th>Cheios</th>
@@ -203,6 +203,7 @@ export function RelatoriosPage() {
               <table className="tabela">
                 <thead>
                   <tr>
+                    <th>Periodo</th>
                     <th>Produto</th>
                     <th>Estoque inicial</th>
                     <th>Entradas</th>
@@ -215,6 +216,7 @@ export function RelatoriosPage() {
                 <tbody>
                   {balanco.map((item) => (
                     <tr key={item.produtoId}>
+                      <td>{new Date(inicio + 'T00:00').toLocaleDateString('pt-BR')} a {new Date(fim + 'T00:00').toLocaleDateString('pt-BR')}</td>
                       <td>{item.produto}</td>
                       <td>{item.estoqueInicial}</td>
                       <td>{item.entradas}</td>
