@@ -36,6 +36,7 @@ export function VendasPage() {
   const [clientes, setClientes] = useState<Cliente[]>([])
   const [form, setForm] = useState<FormState>(formVazio)
   const [taxaEntrega, setTaxaEntrega] = useState(0)
+  const [formasAtivas, setFormasAtivas] = useState<string[]>(FORMAS_PAGAMENTO.map((f) => f.valor))
   const [erro, setErro] = useState<string | null>(null)
   const [sucesso, setSucesso] = useState<string | null>(null)
   const [carregando, setCarregando] = useState(true)
@@ -49,6 +50,21 @@ export function VendasPage() {
         const taxa = configs.find((config) => config.chave === 'taxa_entrega')
         if (taxa) {
           setTaxaEntrega(Number(taxa.valor))
+        }
+        const mapeamento: Record<string, string> = {
+          pagamento_DINHEIRO: 'DINHEIRO',
+          pagamento_PIX: 'PIX',
+          pagamento_CARTAO: 'CARTAO_CREDITO',
+          pagamento_FIADO: 'FIADO',
+        }
+        const ativas: string[] = []
+        for (const config of configs) {
+          if (config.valor === 'true' && mapeamento[config.chave]) {
+            ativas.push(mapeamento[config.chave])
+          }
+        }
+        if (ativas.length > 0) {
+          setFormasAtivas(ativas)
         }
       })
       .catch((err: Error) => setErro(err.message))
@@ -157,11 +173,13 @@ export function VendasPage() {
           <label>
             Forma de pagamento
             <select value={form.formaPagamento} onChange={(e) => alterarForm('formaPagamento', e.target.value)}>
-              {FORMAS_PAGAMENTO.map((forma) => (
-                <option key={forma.valor} value={forma.valor}>
-                  {forma.rotulo}
-                </option>
-              ))}
+              {FORMAS_PAGAMENTO.filter((forma) => formasAtivas.includes(forma.valor)).map(
+                (forma) => (
+                  <option key={forma.valor} value={forma.valor}>
+                    {forma.rotulo}
+                  </option>
+                ),
+              )}
             </select>
           </label>
         </div>

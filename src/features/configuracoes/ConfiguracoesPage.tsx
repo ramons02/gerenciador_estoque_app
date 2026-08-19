@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import { atualizarConfiguracao, listarConfiguracoes } from '../../api/configuracoes'
 import { atualizarVasilhame, listarVasilhames } from '../../api/produtos'
+import { CONFIG_FORMAS_PAGAMENTO } from '../../api/types'
 import type { Configuracao, Vasilhame } from '../../api/types'
 
 export function ConfiguracoesPage() {
   const [taxaEntrega, setTaxaEntrega] = useState('')
+  const [formasPagamento, setFormasPagamento] = useState<Record<string, boolean>>({})
   const [vasilhames, setVasilhames] = useState<Vasilhame[]>([])
   const [erro, setErro] = useState<string | null>(null)
   const [sucesso, setSucesso] = useState<string | null>(null)
@@ -18,6 +20,12 @@ export function ConfiguracoesPage() {
         if (taxa) {
           setTaxaEntrega(taxa.valor)
         }
+        const habilitadas: Record<string, boolean> = {}
+        for (const forma of CONFIG_FORMAS_PAGAMENTO) {
+          const config = configs.find((c: Configuracao) => c.chave === forma.chave)
+          habilitadas[forma.chave] = config ? config.valor === 'true' : true
+        }
+        setFormasPagamento(habilitadas)
       })
       .catch((err: Error) => setErro(err.message))
       .finally(() => setCarregando(false))
@@ -30,6 +38,19 @@ export function ConfiguracoesPage() {
     try {
       await atualizarConfiguracao('taxa_entrega', taxaEntrega)
       setSucesso('Taxa de entrega atualizada.')
+    } catch (err) {
+      setErro((err as Error).message)
+    }
+  }
+
+  async function salvarFormasPagamento() {
+    setErro(null)
+    setSucesso(null)
+    try {
+      for (const forma of CONFIG_FORMAS_PAGAMENTO) {
+        await atualizarConfiguracao(forma.chave, String(formasPagamento[forma.chave]))
+      }
+      setSucesso('Formas de pagamento atualizadas.')
     } catch (err) {
       setErro((err as Error).message)
     }
@@ -81,6 +102,36 @@ export function ConfiguracoesPage() {
               </button>
             </div>
           </form>
+
+          <div className="card formulario">
+            <h2>Formas de pagamento</h2>
+            <p className="texto-ajuda">
+              Marque as formas aceitas na venda. Cartao credito e debito contam como uma
+              unica forma.
+            </p>
+            <div className="linha-form" style={{ display: 'grid', gap: 8 }}>
+              {CONFIG_FORMAS_PAGAMENTO.map((forma) => (
+                <label key={forma.chave} className="opcao-checkbox">
+                  <input
+                    type="checkbox"
+                    checked={Boolean(formasPagamento[forma.chave])}
+                    onChange={(e) =>
+                      setFormasPagamento((atual) => ({
+                        ...atual,
+                        [forma.chave]: e.target.checked,
+                      }))
+                    }
+                  />
+                  {forma.rotulo}
+                </label>
+              ))}
+            </div>
+            <div className="acoes-form">
+              <button type="button" className="botao primario" onClick={salvarFormasPagamento}>
+                Salvar formas
+              </button>
+            </div>
+          </div>
 
           <div className="card">
             <h2>Preco do casco por vasilhame (venda de vasilhame novo)</h2>

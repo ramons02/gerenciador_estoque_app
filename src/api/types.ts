@@ -166,9 +166,15 @@ export interface Configuracao {
 export const FORMAS_PAGAMENTO = [
   { valor: 'DINHEIRO', rotulo: 'Dinheiro' },
   { valor: 'PIX', rotulo: 'PIX' },
-  { valor: 'CARTAO_CREDITO', rotulo: 'Cartao de credito' },
-  { valor: 'CARTAO_DEBITO', rotulo: 'Cartao de debito' },
+  { valor: 'CARTAO_CREDITO', rotulo: 'Cartao (credito/debito)' },
   { valor: 'FIADO', rotulo: 'Fiado' },
+] as const
+
+export const CONFIG_FORMAS_PAGAMENTO = [
+  { chave: 'pagamento_DINHEIRO', rotulo: 'Dinheiro' },
+  { chave: 'pagamento_PIX', rotulo: 'PIX' },
+  { chave: 'pagamento_CARTAO', rotulo: 'Cartao (credito/debito)' },
+  { chave: 'pagamento_FIADO', rotulo: 'Fiado' },
 ] as const
 
 export const TIPOS_VENDA = [
