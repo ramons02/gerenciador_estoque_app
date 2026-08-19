@@ -48,7 +48,7 @@ const ICONES_PAGAMENTO: Record<string, { icone: ReactNode; cor: string }> = {
   },
 }
 
-function formatarPreco(valor: string): string {
+function formatarPreco(valor: number | string): string {
   return Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
