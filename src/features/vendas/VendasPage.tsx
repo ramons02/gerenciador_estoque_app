@@ -55,7 +55,6 @@ export function VendasPage() {
           pagamento_DINHEIRO: 'DINHEIRO',
           pagamento_PIX: 'PIX',
           pagamento_CARTAO: 'CARTAO_CREDITO',
-          pagamento_FIADO: 'FIADO',
         }
         const ativas: string[] = []
         for (const config of configs) {
@@ -90,7 +89,7 @@ export function VendasPage() {
     return total
   }
 
-  const precisaCliente = form.formaPagamento === 'FIADO' || form.vasilhameNovo
+  const precisaCliente = form.vasilhameNovo
 
   async function salvar(event: React.FormEvent) {
     event.preventDefault()
@@ -211,7 +210,7 @@ export function VendasPage() {
         {precisaCliente && (
           <div className="linha-form" style={{ marginTop: 12 }}>
             <label>
-              Cliente (obrigatorio para fiado ou vasilhame novo)
+              Cliente (obrigatorio para vasilhame novo)
               <select value={form.clienteId} onChange={(e) => alterarForm('clienteId', e.target.value)} required>
                 <option value="">Selecione</option>
                 {clientes.map((cliente) => (

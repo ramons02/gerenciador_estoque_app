@@ -6,6 +6,7 @@ import type { Configuracao, Vasilhame } from '../../api/types'
 
 export function ConfiguracoesPage() {
   const [taxaEntrega, setTaxaEntrega] = useState('')
+  const [acrescimoCartao, setAcrescimoCartao] = useState('')
   const [formasPagamento, setFormasPagamento] = useState<Record<string, boolean>>({})
   const [vasilhames, setVasilhames] = useState<Vasilhame[]>([])
   const [erro, setErro] = useState<string | null>(null)
@@ -19,6 +20,10 @@ export function ConfiguracoesPage() {
         const taxa = configs.find((c: Configuracao) => c.chave === 'taxa_entrega')
         if (taxa) {
           setTaxaEntrega(taxa.valor)
+        }
+        const acrescimo = configs.find((c: Configuracao) => c.chave === 'acrescimo_cartao')
+        if (acrescimo) {
+          setAcrescimoCartao(acrescimo.valor)
         }
         const habilitadas: Record<string, boolean> = {}
         for (const forma of CONFIG_FORMAS_PAGAMENTO) {
@@ -38,6 +43,18 @@ export function ConfiguracoesPage() {
     try {
       await atualizarConfiguracao('taxa_entrega', taxaEntrega)
       setSucesso('Taxa de entrega atualizada.')
+    } catch (err) {
+      setErro((err as Error).message)
+    }
+  }
+
+  async function salvarAcrescimoCartao(event: React.FormEvent) {
+    event.preventDefault()
+    setErro(null)
+    setSucesso(null)
+    try {
+      await atualizarConfiguracao('acrescimo_cartao', acrescimoCartao)
+      setSucesso('Acrescimo do cartao atualizado.')
     } catch (err) {
       setErro((err as Error).message)
     }
@@ -99,6 +116,32 @@ export function ConfiguracoesPage() {
             <div className="acoes-form">
               <button type="submit" className="botao primario">
                 Salvar taxa
+              </button>
+            </div>
+          </form>
+
+          <form className="card formulario" onSubmit={salvarAcrescimoCartao}>
+            <h2>Acrescimo do cartao (credito/debito)</h2>
+            <p className="texto-ajuda">
+              Valor fixo adicionado por unidade nas vendas pagas com cartao. Ex.: gas a
+              R$ 120 a vista; com acrescimo de R$ 5, o cartao paga R$ 125.
+            </p>
+            <div className="linha-form">
+              <label>
+                Acrescimo por unidade (R$)
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={acrescimoCartao}
+                  onChange={(e) => setAcrescimoCartao(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+            <div className="acoes-form">
+              <button type="submit" className="botao primario">
+                Salvar acrescimo
               </button>
             </div>
           </form>
