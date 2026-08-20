@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import {
   atualizarProduto,
+  criarCarga,
   criarProduto,
+  criarVasilhame,
   listarCargas,
   listarProdutos,
   listarVasilhames,
@@ -44,6 +46,11 @@ export function ProdutosPage() {
   const [editandoId, setEditandoId] = useState<number | null>(null)
   const [erro, setErro] = useState<string | null>(null)
   const [carregando, setCarregando] = useState(true)
+  const [novaCargaAberta, setNovaCargaAberta] = useState(false)
+  const [novaCargaNome, setNovaCargaNome] = useState('')
+  const [novoVasilhameAberto, setNovoVasilhameAberto] = useState(false)
+  const [novoVasilhameNome, setNovoVasilhameNome] = useState('')
+  const [novoVasilhamePrecoCasco, setNovoVasilhamePrecoCasco] = useState('0')
 
   useEffect(() => {
     Promise.all([listarProdutos(), listarCargas(), listarVasilhames()])
@@ -76,6 +83,37 @@ export function ProdutosPage() {
     setEditandoId(null)
     setForm(formVazio)
     setErro(null)
+  }
+
+  async function confirmarNovaCarga() {
+    const nome = novaCargaNome.trim()
+    if (!nome) return
+    setErro(null)
+    try {
+      const criada = await criarCarga(nome)
+      setCargas(await listarCargas())
+      setNovaCargaAberta(false)
+      setNovaCargaNome('')
+      alterarForm('cargaId', String(criada.id))
+    } catch (err) {
+      setErro((err as Error).message)
+    }
+  }
+
+  async function confirmarNovoVasilhame() {
+    const nome = novoVasilhameNome.trim()
+    if (!nome) return
+    setErro(null)
+    try {
+      const criado = await criarVasilhame(nome, novoVasilhamePrecoCasco || '0')
+      setVasilhames(await listarVasilhames())
+      setNovoVasilhameAberto(false)
+      setNovoVasilhameNome('')
+      setNovoVasilhamePrecoCasco('0')
+      alterarForm('vasilhameId', String(criado.id))
+    } catch (err) {
+      setErro((err as Error).message)
+    }
   }
 
   async function salvar(event: React.FormEvent) {
@@ -118,8 +156,14 @@ export function ProdutosPage() {
             <select
               value={form.cargaId}
               onChange={(e) => {
-                alterarForm('cargaId', e.target.value)
-                const carga = cargas.find((c) => c.id === Number(e.target.value))
+                const valor = e.target.value
+                if (valor === 'nova') {
+                  setNovaCargaAberta(true)
+                  return
+                }
+                setNovaCargaAberta(false)
+                alterarForm('cargaId', valor)
+                const carga = cargas.find((c) => c.id === Number(valor))
                 if (!carga) return
                 const nomeVasilhame = VASILHAME_POR_CARGA[carga.nome]
                 if (!nomeVasilhame) return
@@ -136,13 +180,38 @@ export function ProdutosPage() {
                   {carga.nome}
                 </option>
               ))}
+              <option value="nova">Nova carga...</option>
             </select>
+            {novaCargaAberta && (
+              <div className="nova-opcao">
+                <input
+                  type="text"
+                  placeholder="Nome da nova carga"
+                  value={novaCargaNome}
+                  onChange={(e) => setNovaCargaNome(e.target.value)}
+                />
+                <button type="button" className="botao primario" onClick={confirmarNovaCarga}>
+                  Criar carga
+                </button>
+                <button type="button" className="botao" onClick={() => setNovaCargaAberta(false)}>
+                  Cancelar
+                </button>
+              </div>
+            )}
           </label>
           <label>
             Vasilhame
             <select
               value={form.vasilhameId}
-              onChange={(e) => alterarForm('vasilhameId', e.target.value)}
+              onChange={(e) => {
+                const valor = e.target.value
+                if (valor === 'nova') {
+                  setNovoVasilhameAberto(true)
+                  return
+                }
+                setNovoVasilhameAberto(false)
+                alterarForm('vasilhameId', valor)
+              }}
               required
             >
               <option value="">Selecione</option>
@@ -151,7 +220,32 @@ export function ProdutosPage() {
                   {vasilhame.nome}
                 </option>
               ))}
+              <option value="nova">Novo vasilhame...</option>
             </select>
+            {novoVasilhameAberto && (
+              <div className="nova-opcao">
+                <input
+                  type="text"
+                  placeholder="Nome do novo vasilhame"
+                  value={novoVasilhameNome}
+                  onChange={(e) => setNovoVasilhameNome(e.target.value)}
+                />
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="Preco do casco (R$)"
+                  value={novoVasilhamePrecoCasco}
+                  onChange={(e) => setNovoVasilhamePrecoCasco(e.target.value)}
+                />
+                <button type="button" className="botao primario" onClick={confirmarNovoVasilhame}>
+                  Criar vasilhame
+                </button>
+                <button type="button" className="botao" onClick={() => setNovoVasilhameAberto(false)}>
+                  Cancelar
+                </button>
+              </div>
+            )}
           </label>
           <label>
             Preco de custo (R$)

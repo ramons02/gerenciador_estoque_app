@@ -5,8 +5,22 @@ export function listarCargas(): Promise<Carga[]> {
   return api<Carga[]>('/api/cargas')
 }
 
+export function criarCarga(nome: string): Promise<Carga> {
+  return api<Carga>('/api/cargas', {
+    method: 'POST',
+    body: JSON.stringify({ nome }),
+  })
+}
+
 export function listarVasilhames(): Promise<Vasilhame[]> {
   return api<Vasilhame[]>('/api/vasilhames')
+}
+
+export function criarVasilhame(nome: string, precoCasco: string): Promise<Vasilhame> {
+  return api<Vasilhame>('/api/vasilhames', {
+    method: 'POST',
+    body: JSON.stringify({ nome, precoCasco }),
+  })
 }
 
 export function atualizarVasilhame(id: number, input: { nome: string; precoCasco: string }): Promise<Vasilhame> {
